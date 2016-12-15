@@ -1,0 +1,212 @@
+<!-- Page -->
+<div class="panel">
+  <button type="button" class="btn btn-round btn-primary btn-pill-right btn_VolverAlMapa">Volver al Mapa</button>
+  <div class="panel-body">
+    <div class="panel-heading">
+      <h4 class="panel-title">Registro de Responsable</h4>
+    </div>
+    <div class="panel-body container">
+      <form id="frmVisita_AgregarResponsable" role="form">
+        
+        <input type="hidden" class="form-control guardar" id="txtResponsable_Latitud">
+        <input type="hidden" class="form-control guardar" id="txtResponsable_Longitud">
+
+        <div class="col-md-12 row">
+          <div class="example-wrap margin-sm-0 col-sm-6">
+            <div class="margin-5">
+              <h4 class="example-title">Codigo</h4>
+              <div class="form-group">
+                <input type="text" class="form-control guardar" id="txtResponsable_Codigo" readonly="true">
+              </div>
+            </div>
+          </div>
+
+          <div class="example-wrap margin-sm-0 col-sm-6">
+            <div class="margin-5">
+              <h4 class="example-title">Cedula</h4>
+              <div class="form-group">
+                <input type="number" class="form-control guardar" id="txtResponsable_Cedula" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 row">
+          <div class="example-wrap margin-sm-0 col-sm-6">
+            <div class="margin-5">
+              <h4 class="example-title">Primer Apellido</h4>
+              <div class="form-group">
+                <input type="text" class="form-control guardar" id="txtResponsable_Apellido1" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="example-wrap margin-sm-0 col-sm-6">
+            <div class="margin-5">
+              <h4 class="example-title">Segundo Apellido</h4>
+              <div class="form-group">
+                <input type="text" class="form-control guardar" id="txtResponsable_Apellido2">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 row">
+          <div class="example-wrap margin-sm-0 col-sm-6">
+            <div class="margin-5">
+              <h4 class="example-title">Primer Nombre</h4>
+              <div class="form-group">
+                <input type="text" class="form-control guardar" id="txtResponsable_Nombre1" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="example-wrap margin-sm-0 col-sm-6">
+            <div class="margin-5">
+              <h4 class="example-title">Segundo Nombre</h4>
+              <div class="form-group">
+                <input type="text" class="form-control guardar" id="txtResponsable_Nombre2">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 row">
+          <div class="example-wrap margin-sm-0 col-sm-6">
+            <div class="margin-5">
+              <h4 class="example-title">Fecha de Nacimiento</h4>
+              <div class="form-group">
+                <input type="date" class="form-control guardar" id="txtResponsable_FechaNacimiento">
+              </div>
+            </div>
+          </div>
+
+          <div class="example-wrap margin-sm-0 col-sm-6">
+            <div class="margin-5 hide">
+              <h4 class="example-title">Segundo Nombre</h4>
+              <div class="form-group">
+                <input type="text" class="form-control" id="txtResponsable_Edad">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-heading">
+              <h4 class="panel-title">Contacto</h4>
+            </div>
+            <div class="panel-body container">
+              <div class="col-md-12 row">
+                <div class="example-wrap margin-sm-0 col-sm-6">
+                  <div class="margin-5">
+                    <h4 class="example-title">Telefono Fijo</h4>
+                    <div class="form-group">
+                      <input type="number" class="form-control guardar" id="txtResponsable_Telefono1">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="example-wrap margin-sm-0 col-sm-6">
+                  <div class="margin-5">
+                    <h4 class="example-title">_</h4>
+                    <div class="form-group">
+                      <input type="number" class="form-control" id="txtResponsable_Telefono2">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12 row">
+                <div class="example-wrap margin-sm-0 col-sm-6">
+                  <div class="margin-5">
+                    <h4 class="example-title">Telefono Celular</h4>
+                    <div class="form-group">
+                      <input type="number" class="form-control guardar" id="txtResponsable_Celular1">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="example-wrap margin-sm-0 col-sm-6">
+                  <div class="margin-5">
+                    <h4 class="example-title">_</h4>
+                    <div class="form-group">
+                      <input type="number" class="form-control" id="txtResponsable_Celular2">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12 row">
+                <div class="example-wrap margin-sm-0 col-sm-12">
+                  <div class="margin-5">
+                    <h4 class="example-title">Correo</h4>
+                    <div class="form-group">
+                      <input type="email" class="form-control guardar" id="txtResponsable_Correo">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-heading">
+              <h4 class="panel-title">Ubicación</h4>
+            </div>
+            <div class="panel-body container">
+              <div class="col-md-12 row">
+                <div class="example-wrap margin-sm-0 col-sm-12">
+                  <div class="margin-5">
+                    <h4 class="example-title">Dirección</h4>
+                    <div class="form-group">
+                      <input type="text" class="form-control guardar" id="txtResponsable_Direccion">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12 row">
+                <div class="example-wrap margin-sm-0 col-sm-12">
+                  <div class="margin-5">
+                    <h4 class="example-title">Barrio</h4>
+                    <div class="form-group">
+                      <input type="text" class="form-control guardar" id="txtResponsable_Barrio">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12 row">
+                <div class="example-wrap margin-sm-0 col-sm-12">
+                  <div class="margin-5">
+                    <h4 class="example-title">Dirección</h4>
+                    <div class="form-group">
+                      <select type="text" class="form-control guardar" id="txtResponsable_Localidad">
+                        <option value="1">Kennedy</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-success btn-lg"><i class="icon fa-floppy-o"></i> Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End Page -->
+<script type="text/javascript">
+    jQuery(document).ready(function() { 
+        $.getScript("../js/registroResponsable.js", function(ev)
+        {
+          controlarPermisos();
+          funRegistroResponsable();
+        });
+      });
+</script>
