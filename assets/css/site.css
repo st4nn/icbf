@@ -53,7 +53,7 @@ body {
   height:         calc(100% - 66px);
   font-family: "Roboto", sans-serif;
   color: rgba(55, 71, 79, .9);
-  background: #54AB43;/*Fondo del Menu*/
+  background: #FFFFFF;/*Fondo del Menu 54ab43*/ 
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
   box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
 }
@@ -217,7 +217,7 @@ body {
 }
 .site-menu > .site-menu-item.active > a {
   color: #fff);
-  background: #54AB43;
+  background: #ffffff;/*#54AB43;*/
 }
 .site-menu > .site-menu-item.active.hover > a {
   background: transparent;

@@ -4,6 +4,14 @@ var markers = [];
 function funMapa()
 {
 
+	$(document).delegate('.btn_VolverAlPanel', 'click', function(evento) {
+		evento.preventDefault();
+        cargarModulo("home-visita.html", "Hogar Visitado", function()
+          {
+            
+          });
+	});
+
 	$(document).delegate('.btn_VolverAlMapa', 'click', function(evento) {
 		evento.preventDefault();
         cargarModulo("mapa.html", "Registrar Visita", function()
@@ -11,6 +19,8 @@ function funMapa()
             
           });
 	});
+
+	
 
 	$("#btnVisitas_VolverAlPanel").on("click", function(evento)
       {
@@ -28,7 +38,7 @@ function funMapa()
       	{
 	        cargarModulo("registroResponsable.html", "Registrar Responsable", function()
 	          {
-	            $("#frmVisita_AgregarResponsable")[0].reset();
+	            //$("#frmVisita_AgregarResponsable")[0].reset();
 		        $("#txtResponsable_Latitud").val(camera.target.lat);
 		        $("#txtResponsable_Longitud").val(camera.target.lng);
 	            $("#txtResponsable_Codigo").val(obtenerPrefijo());
@@ -41,7 +51,7 @@ function funMapa()
 		evento.preventDefault();
 		cargarModulo("home-visita.html", "Hogar Visitado", function()
 		{
-			
+				
 		});
 
 	});
@@ -77,6 +87,7 @@ function funMapa()
 
 	    mapDiligenciamiento.addEventListener(plugin.google.maps.event.MAP_READY, function() 
 	      {
+	      	mapa_CargarHogares();
 	        mapDiligenciamiento.on(plugin.google.maps.event.MAP_CLICK, function()
 	          {
 	            if(!$("#cntVisitas_Mapa_Opciones").is(":visible"))
@@ -92,3 +103,66 @@ function funMapa()
 	}
 }
 
+function mapa_CargarHogares()
+{
+	var sql = "SELECT Latitud, Longitud, Nombre1, Apellido1, Icono, Codigo FROM Responsable;";
+	
+	ejecutarSQL(sql, [], function(fila)
+      {
+        if (fila.length > 0)
+        {
+          var data = [];
+          var urlImagen = "";
+          var idx = 0;
+          $.each(fila, function(index, val) 
+          {
+            if (val.latitud != "")
+            {
+              if (val.idEstado == "" || val.idEstado < 2)
+              {
+                val.idEstado = 0;
+              }
+              urlImagen = 'www/assets/images/icons/' + val.Icono;
+
+              var posicion = new plugin.google.maps.LatLng(parseFloat(val.Latitud.replace(",", ".")), parseFloat(val.Longitud.replace(",", ".")));
+               data.push({'position': posicion, 'title': val.Nombre1 + ' ' + val.Apellido1, 'icon' : {'url' : urlImagen}, 'snippet' : val.Codigo});
+            }
+          });
+
+          addMarkers(data, function(markers) {
+              markers[markers.length - 1].showInfoWindow();
+            });
+        }
+      });
+
+	function addMarkers(data, callback) {
+	  markers = [];
+	  var idxMarker = 0;
+	  function onMarkerAdded(marker) {
+	
+	    markers[marker.getSnippet()] = marker;
+
+	    if (markers.length === data.length) {
+	      callback(markers);
+	      marker.getPosition(function(latlng)
+	      {
+	        mapDiligenciamiento.setCenter(latlng)
+	      });
+	    }
+	    marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function() 
+	    {
+	      $("#cntVisitas_Marcador_Opciones").show();
+          $("#cntVisitas_Mapa_Opciones").hide();
+          $("#img_Marcador_Mira").hide();
+          $("#txtMapa_idHogar").val(marker.getSnippet());
+          marker.getPosition(function(latlng)
+          {
+            mapDiligenciamiento.setCenter(latlng);
+          });
+	    });
+	  }
+	  data.forEach(function(markerOptions) {
+	    mapDiligenciamiento.addMarker(markerOptions, onMarkerAdded);
+	  });
+	}
+}

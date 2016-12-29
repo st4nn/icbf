@@ -1,4 +1,5 @@
 var Usuario = null;
+abrirWebSQL();
 
 $(document).ready(function() {
 	aplicacion();
@@ -310,8 +311,11 @@ function controlarPermisos()
 
 function abrirCamara(tipo, callback, sierror)
 {
+  
   if (callback == undefined)
   {    callback = function(){};  }
+
+  var ownCallback = function(uri){ callback(uri)};
 
   if (sierror == undefined)
   {    sierror = cameraFail;  }
@@ -323,12 +327,21 @@ function abrirCamara(tipo, callback, sierror)
   {
     vSourceType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
     //vDestinationType = Camera.DestinationType.NATIVE_URI;
+    ownCallback = function(uri)
+    {
+      window.FilePath.resolveNativePath(uri, function(rUri)
+      {
+        callback(rUri);
+      });
+    };
   }
 
-  navigator.camera.getPicture(callback, sierror, 
+  navigator.camera.getPicture(ownCallback, sierror, 
     { quality: 80,
       sourceType: vSourceType,
     destinationType: vDestinationType,
+    correctOrientation: true,
+    targetWidth: 380, targetHeight: 480,
     saveToPhotoAlbum : true });
 }
 
@@ -362,4 +375,158 @@ function iniciarWizard(elemento, controles, funFinish, funBeforeChange)
   });
 
   var wizard = elemento.wizard(options).data('wizard');
+}
+
+function calcularEdad(fecha)
+{
+  if (fecha != "")
+  {
+    // Si la fecha es correcta, calculamos la edad
+    var values=fecha.split("-");
+    var dia = values[2];
+    var mes = values[1];
+    var ano = values[0];
+
+    // cogemos los valores actuales
+    var fecha_hoy = new Date();
+    var ahora_ano = fecha_hoy.getYear();
+    var ahora_mes = fecha_hoy.getMonth()+1;
+    var ahora_dia = fecha_hoy.getDate();
+
+    // realizamos el calculo
+    var edad = (ahora_ano + 1900) - ano;
+    if ( ahora_mes < mes )
+    {
+        edad--;
+    }
+    if ((mes == ahora_mes) && (ahora_dia < dia))
+    {
+        edad--;
+    }
+    if (edad > 1900)
+    {
+        edad -= 1900;
+    }
+
+    // calculamos los meses
+    var meses=0;
+    if(ahora_mes>mes)
+        meses=ahora_mes-mes;
+    if(ahora_mes<mes)
+        meses=12-(mes-ahora_mes);
+    if(ahora_mes==mes && dia>ahora_dia)
+        meses=11;
+
+    // calculamos los dias
+    var dias=0;
+    if(ahora_dia>dia)
+        dias=ahora_dia-dia;
+    if(ahora_dia<dia)
+    {
+        ultimoDiaMes=new Date(ahora_ano, ahora_mes, 0);
+        dias=ultimoDiaMes.getDate()-(dia-ahora_dia);
+    }
+      
+      return {anios : edad, meses : meses, dias : dias};
+  } else
+  {
+    return {anios : 0, meses : 0, dias : 0};
+  }
+}
+
+$.fn.guardarFormulario = function(restricciones, tabla, unicidad, callback)
+{
+  if (callback === undefined)
+  {
+    callback = function(){};
+  }
+
+  $(this).generarDatosEnvio(restricciones, function(datos)
+  {
+    datos = $.parseJSON(datos);
+    var campos = "";
+    var parametros = "";
+    var update = "";
+    var valores = [];
+    $.each(datos, function(index, val) 
+    {
+      campos += index + ", ";
+      parametros += "?, ";
+      update += index + '= ?, ';
+      
+      valores.push(val);
+    });
+    
+    update += 'Estado = ?, fechaCargue = ?';
+    parametros += '?, ?';
+    campos += 'Estado, fechaCargue';
+    valores.push('Sincronizar');
+    valores.push(obtenerFecha());
+
+    ejecutarSQL("SELECT * FROM " + tabla + " WHERE " + unicidad.campo + " = ?", [unicidad.valor], function(unico)
+    {
+      if (unico.length > 0)
+      {
+        valores.push(unicidad.valor);
+        ejecutarSQL("UPDATE " + tabla + ' SET ' + update + ' WHERE ' + unicidad.campo + '= ?;', valores, function()
+        {
+          callback();
+        });
+      } else
+      {
+        ejecutarSQL('INSERT INTO ' + tabla + ' (' + campos + ') VALUES (' + parametros + ');', valores, function()
+        {
+          callback();
+        });
+      }
+    });
+  });
+}
+
+$.fn.generarJsonRadios = function(restricciones, objCampo, callback)
+{
+
+  if (callback === undefined)
+  {
+    callback = function(){};
+  }
+
+  var obj = $(this).find(".cntRadio_Comentarios");
+  $(objCampo).val("");
+
+  var idObj = {};
+  var Comentarios = {};
+  var Valor = "";
+  var Cadena = [];
+  if (obj.length > 0)
+  {
+    $.each(obj, function(index, val) 
+    {
+      idObj = {};
+      Comentarios = {};
+      Valor = "";
+      
+      idObj = $(val).find('input:checked');
+      if (idObj.length == 0)
+      {
+        idObj = $(val).find('input[type=radio]');
+      } else
+      {
+        Valor = $("label[for=" + $(idObj).attr("id") + "]").text();
+      }
+
+        idObj = $(idObj[0]).attr("name").replace(restricciones, "");
+        Comentarios = $(val).find("textarea");
+        if (Comentarios.length > 0)
+        {
+          Comentarios = $(Comentarios[0]).val();
+        } else
+        {
+          Comentarios = "";
+        }
+      Cadena.push({'p' : idObj,  'r' : Valor, 'o' : Comentarios});
+    });
+    $(objCampo).val(JSON.stringify(Cadena));
+    callback();
+  }
 }

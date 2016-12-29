@@ -11,6 +11,8 @@
         <input type="hidden" class="form-control guardar" id="txtResponsable_Latitud">
         <input type="hidden" class="form-control guardar" id="txtResponsable_Longitud">
 
+        <input type="hidden" class="form-control guardar" id="txtResponsable_Icono" value="tree_green.png">
+
         <div class="col-md-12 row">
           <div class="example-wrap margin-sm-0 col-sm-6">
             <div class="margin-5">
@@ -82,12 +84,26 @@
           </div>
 
           <div class="example-wrap margin-sm-0 col-sm-6">
-            <div class="margin-5 hide">
-              <h4 class="example-title">Segundo Nombre</h4>
+            <div class="margin-5">
+              <h4 class="example-title">Edad</h4>
               <div class="form-group">
-                <input type="text" class="form-control" id="txtResponsable_Edad">
+                <input type="text" class="form-control" id="txtResponsable_Edad" readonly="true" style="border:none; background: white;">
               </div>
             </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 row">
+          <div class="col-sm-6">
+            <div class="margin-5">
+              <button id="btnRegistroResponsable_Foto" type="button" class="btn btn-warning btn-lg btn-block"><i class="icon fa-camera"></i></button>
+            </div>
+            <div class="margin-5">
+              <button id="btnRegistroResponsable_Galeria" type="button" class="btn btn-warning btn-lg btn-block"><i class="icon fa-picture-o"></i></button>
+            </div>
+          </div>
+          <div class="col-sm-6">
+              <img id="imgResponsable_Foto" style="height: 120px;width:95px; border-radius: 28px;" src="../assets/portraits/5.png" alt="...">
           </div>
         </div>
         <div class="panel">

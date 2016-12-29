@@ -22,7 +22,7 @@
   </div>
   <div class="col-xlg-6 col-md-6 col-sm-6" style="height:100%;">
     <div class="panel">
-      <div class="panel-body lnkMenuBar_Item" vinculo="visitaSeguimiento.html">
+      <div class="panel-body" vinculo="visitaSeguimiento.html" id="lnkHome_Visita_VisitaSeguimiento">
         <button type="button" class="btn btn-icon btn-primary btn-outline btn-round font-size-50" data-plugin="toolbar" data-toolbar="#user-options" data-toolbar-style="primary">
         <i class="icon fa-eye" aria-hidden="true"></i>
         </button>
@@ -32,7 +32,7 @@
   </div>
   <div class="col-xlg-6 col-md-6 col-sm-6" style="height:100%;">
     <div class="panel">
-      <div class="panel-body lnkMenuBar_Item" vinculo="actaVisitaDomiciliaria.html">
+      <div class="panel-body" vinculo="actaVisitaDomiciliaria.html" id="lnkHome_Visita_ActaVisitaDomiciliaria">
         <button type="button" class="btn btn-icon btn-primary btn-outline btn-round font-size-50" data-plugin="toolbar" data-toolbar="#user-options" data-toolbar-style="primary">
         <i class="icon fa-file-pdf-o" aria-hidden="true"></i>
         </button>
@@ -62,7 +62,7 @@
   </div>
   <div class="col-xlg-6 col-md-6 col-sm-6" style="height:100%;">
     <div class="panel">
-      <div class="panel-body lnkMenuBar_Item">
+      <div class="panel-body" id="lnkHome_Visita_PlatinSeguimiento">
         <button type="button" class="btn btn-icon btn-primary btn-outline btn-round font-size-50" data-plugin="toolbar" data-toolbar="#user-options" data-toolbar-style="primary">
         <i class="icon fa-bullseye" aria-hidden="true"></i>
         </button>
@@ -74,8 +74,11 @@
 </div>
 <!-- End Page -->
 <script type="text/javascript">
-jQuery(document).ready(function()
-{
-//modInicio();
-});
+      jQuery(document).ready(function() { 
+        $.getScript("../js/home-visita.js", function(ev)
+        {
+          controlarPermisos();
+          funHome_Visita();
+        });
+      });
 </script>

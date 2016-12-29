@@ -17,7 +17,7 @@ function funVisitaSeguimiento()
       });
   });
 
-  $("#btnVisitaSeguimiento_Foto_Galeria").on("click", function()
+  $("#btnVisitaSeguimiento_Galeria").on("click", function()
   {
     abrirCamara(0, function(uri)
       {
@@ -25,10 +25,43 @@ function funVisitaSeguimiento()
        });      
   });
 
-  iniciarWizard($("#cntVisitaSeguimiento_Wizard"), "#cntVisitaSeguimiento_Controles", function(){});
+  iniciarWizard($("#cntVisitaSeguimiento_Wizard"), "#cntVisitaSeguimiento_Controles", function(){
+        $("#txtVisitaSeguimiento_FechaFin").val(obtenerFecha());
+        $("#frmVisitaSeguimiento").generarJsonRadios("optVisitaSeguimiento_", $("#txtVisitaSeguimiento_Encuesta"), function()
+          {
+            var obj = $("#frmVisitaSeguimiento").find(".cntVisitaSeguimiento_Compromiso");
+
+            $("#txtVisitaSeguimiento_Compromisos").val("");
+            if (obj.length > 0)
+            {
+              var Compromiso = "" ;
+              var Fecha = "";
+              var Compromisos = [];
+              $.each(obj, function(index, val) 
+              {
+                  Compromiso = $(val).find("textarea").val();
+                  Fecha = $(val).find("input").val();
+
+                  if (Compromiso != "" && Fecha != "")
+                  {
+                    Compromisos.push({'c' : Compromiso, 'f' : Fecha});
+                  }
+              });
+
+              $("#txtVisitaSeguimiento_Compromisos").val(JSON.stringify(Compromisos));
+
+              $("#frmVisitaSeguimiento").guardarFormulario("txtVisitaSeguimiento_", "VisitaSeguimiento", {campo : "Codigo", valor : $("#txtVisitaSeguimiento_Codigo").val()}, function()
+              {
+                cargarModulo("home-visita.html", "Hogar Visitado", function(){
+                  Mensaje("Hey", "La Visita ha sido registrada", "success");
+                });
+              });
+            }
+          });
+  });
 
   $(document).delegate('.btnVisitaSeguimiento_BorrarCompromiso', 'click', function(event) {
-    $(this).parent("div").parent("div").remove();
+    $(this).parent("div").parent("div").parent("div").remove();
   });
 
   $("#btnVisitaSeguimiento_AgregarCompromiso").on("click", function(evento)
@@ -36,7 +69,7 @@ function funVisitaSeguimiento()
       evento.preventDefault();
       var obj = $("#cntVisitaSeguimiento_Compromisos_PrimeraFila").html();
       obj = obj.replace("btnVisitaSeguimiento_BorrarCompromiso_fake hide", "btnVisitaSeguimiento_BorrarCompromiso");
-      $("#cntVisitaSeguimiento_Compromisos").append('<div class="col-sm-12 row">' + obj + '</div>');
+      $("#cntVisitaSeguimiento_Compromisos").append('<div class="col-sm-12 row cntVisitaSeguimiento_Compromiso">' + obj + '</div>');
     });
 }
 
